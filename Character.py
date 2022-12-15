@@ -4,7 +4,7 @@ class Character:
         self.password = password
         self.server = server
         self.premium = premium
-        self.missionString = mission_string
+        self.mission_string = mission_string
         self.allineamento = allineamento
         self.enabled = enabled
 
