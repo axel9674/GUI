@@ -8,6 +8,15 @@
             "mission_string": "DragonLair",
             "allineamento": "buono",
             "enabled": true
+        },
+        {
+            "user": "axel",
+            "password": "12345",
+            "server": "2",
+            "premium": true,
+            "mission_string": "DragonLair",
+            "allineamento": "malvagio",
+            "enabled": false
         }
     ]
 }

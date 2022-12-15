@@ -2,6 +2,7 @@
 
 import PySimpleGUI as gui
 import json
+import ctypes
 
 from Character import Character
 from CharactersWrapper import CharactersWrapper
@@ -20,6 +21,10 @@ usernames = []
 
 selected_pg = None
 pg_index = None
+
+
+def Mbox(title, texts, style):
+    return ctypes.windll.user32.MessageBoxW(0, "\n".join(texts), title, style)
 
 
 def the_gui():
@@ -129,7 +134,7 @@ def the_gui():
 
                 pg_index = None
                 selected_pg = None
-                clear_form()
+                # clear_form()
 
                 save_json()
                 update_list()
@@ -137,6 +142,7 @@ def the_gui():
                 pass
 
         elif event == "-SAVE-":  # scrive sul json
+            error_messages = []
             if selected_pg is not None:
                 # sovrascrivi
                 character_list.pop(pg_index)
@@ -150,21 +156,37 @@ def the_gui():
                 character_list.insert(pg_index, selected_pg)
 
             else:  # salva nuovo
-                new_character = Character(
-                    values["-USERNAME-"],
-                    values["-PASSWORD-"],
-                    values["-SERVER-"],
-                    values["-PREMIUM-"],
-                    values["-MISSIONE-"],
-                    values["-ALLINEAMENTO-"],
-                    values["-ABILITATO-"])
 
-                character_list.append(new_character)
-                selected_pg = new_character
-                pg_index = character_list.__len__() - 1
+                if values["-USERNAME-"] == "":
+                    error_messages.append("Lo username non può essere vuoto")
+                if values["-PASSWORD-"] == "":
+                    error_messages.append("La password non può essere vuota")
+                if values["-SERVER-"] == "":
+                    error_messages.append("Selezionare il server")
+                if values["-MISSIONE-"] == "":
+                    error_messages.append("Selezionare la missione")
+                if values["-ALLINEAMENTO-"] == "":
+                    error_messages.append("Selezionare l'allineamento")
 
-            save_json()
-            update_list()
+                if error_messages.__len__() > 0:
+                    Mbox("Errore", error_messages, 0)
+                else:
+                    new_character = Character(
+                        values["-USERNAME-"],
+                        values["-PASSWORD-"],
+                        values["-SERVER-"],
+                        values["-PREMIUM-"],
+                        values["-MISSIONE-"],
+                        values["-ALLINEAMENTO-"],
+                        values["-ABILITATO-"])
+
+                    character_list.append(new_character)
+                    selected_pg = new_character
+                    pg_index = character_list.__len__() - 1
+
+            if error_messages.__len__() == 0:
+                save_json()
+                update_list()
 
         elif event == "-START-":  # inizia l'esecuzione
             bk_auto_mission(character_list)
