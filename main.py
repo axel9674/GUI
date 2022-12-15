@@ -4,6 +4,8 @@ import PySimpleGUI as gui
 import json
 
 from Character import Character
+from CharactersWrapper import CharactersWrapper
+from CustomEncoder import CustomEncoder
 
 from bk_auto_mission import *
 
@@ -62,7 +64,11 @@ def the_gui():
     window = gui.Window("BattleKnight auto mission", layout, finalize=True)
 
     def save_json():
-        json_string = '{"pgs": ' + json.dumps([obj.__dict__ for obj in character_list]) + ' }'
+
+        characters_wrapper = CharactersWrapper(character_list)
+
+        # json_string = '{\n"pgs": ' + json.dumps([obj.__dict__ for obj in character_list], indent=4) + '\n}'
+        json_string = json.dumps(characters_wrapper, indent=4, cls=CustomEncoder)
 
         with open('config.json', 'w') as json_file:
             json_file.write(json_string)

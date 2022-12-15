@@ -126,7 +126,7 @@ def thread_start(character):
 
 def print_with_time(character_name, text):
     t = datetime.datetime.now().time()
-    print(t.strftime('\n[%H:%M:%S]'), '-', character_name, ':', text)
+    print(t.strftime('[%H:%M:%S]'), '-', character_name, ':', text)
 
 
 def bk_auto_mission(characters):
