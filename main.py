@@ -16,8 +16,12 @@ missioni_list = ["DragonLair", "missione2"]
 character_list = []
 usernames = []
 
+selected_pg = None
+pg_index = None
+
 
 def the_gui():
+    global selected_pg, pg_index
     for selected_pg in data:
         character = Character(selected_pg["user"], selected_pg["password"], selected_pg["server"],
                               selected_pg["premium"],
