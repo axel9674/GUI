@@ -1,1 +1,13 @@
-{"pgs": [{"user": "badman", "password": "19112546Aa", "server": "1", "premium": true, "mission_string": "DragonLair", "allineamento": "buono", "enabled": true}] }
+{
+    "pgs": [
+        {
+            "user": "badman",
+            "password": "19112546Aa",
+            "server": "1",
+            "premium": true,
+            "mission_string": "DragonLair",
+            "allineamento": "buono",
+            "enabled": true
+        }
+    ]
+}

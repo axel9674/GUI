@@ -79,11 +79,11 @@ def missioning(driver, character):
 
     while not threadEvent.is_set():
 
-        if character.premium == 'y':
+        if character.premium:
             if check_exists_by(By.XPATH, '//*[@id="lifeCount"]', driver):
                 if driver.find_element(By.XPATH, '//*[@id="lifeCount"]').text == '1':
-                    driver.find_element(By.XPATH, '//*[@id="topPotions"]/li[1]').click()
-                    driver.find_element(By.XPATH, '//*[@id="topPotionPopup"]/div[4]/a[1]').click()
+                    driver.find_element(By.XPATH, '//*[@id="merchPotion335458741"]').click()
+                    driver.find_element(By.XPATH, '//*[@id="topPotionPopup"]/div[4]/a[1]/span').click()
                     print_with_time(character.user, 'pozione consumata')
 
         if check_exists_by(By.XPATH, '//*[@id="navJourney"]', driver):
