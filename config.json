@@ -1,0 +1,23 @@
+{
+    "pgs": [
+        {
+            "user": "badman",
+            "password": "19112546Aa",
+            "server": 1,
+            "premium": true,
+            "missionString": "DragonLair",
+            "allineamento": "buono",
+            "enabled": true
+        },
+        {
+            "user": "axel",
+            "password": "19112546Aa",
+            "server": 1,
+            "premium": true,
+            "missionString": "DragonLair",
+            "allineamento": "malvagio",
+            "enabled": false
+        }
+    ]
+}
+
