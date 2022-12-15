@@ -53,6 +53,33 @@ layout = [
 
 window = gui.Window("Image Viewer", layout)
 
+
+def save_json():
+    json_string = '{"pgs": ' + json.dumps([obj.__dict__ for obj in character_list]) + ' }'
+
+    with open('config.json', 'w') as json_file:
+        json_file.write(json_string)
+        json_file.close()
+
+
+def clear_form():
+    window["-USERNAME-"].update("")
+    window["-PASSWORD-"].update("")
+    window["-SERVER-"].update("")
+    window["-PREMIUM-"].update("")
+    window["-MISSIONE-"].update("")
+    window["-ALLINEAMENTO-"].update("")
+    window["-ABILITATO-"].update("")
+
+
+def update_list():
+    usernames.clear()
+    for c in character_list:
+        usernames.append(c["user"])
+
+    window["-LISTBOX-"].update(usernames)
+
+
 while True:
     event, values = window.read()
     if event == "Exit" or event == gui.WIN_CLOSED:
@@ -76,13 +103,7 @@ while True:
     elif event == "-NEW-":  # crea un nuovo pg
         pg_index = None
         selected_pg = None
-        window["-USERNAME-"].update("")
-        window["-PASSWORD-"].update("")
-        window["-SERVER-"].update("")
-        window["-PREMIUM-"].update("")
-        window["-MISSIONE-"].update("")
-        window["-ALLINEAMENTO-"].update("")
-        window["-ABILITATO-"].update("")
+        clear_form()
 
     elif event == "-DELETE-":  # cancella un pg
         if selected_pg is not None:
@@ -90,25 +111,10 @@ while True:
 
             pg_index = None
             selected_pg = None
-            window["-USERNAME-"].update("")
-            window["-PASSWORD-"].update("")
-            window["-SERVER-"].update("")
-            window["-PREMIUM-"].update("")
-            window["-MISSIONE-"].update("")
-            window["-ALLINEAMENTO-"].update("")
-            window["-ABILITATO-"].update("")
+            clear_form()
 
-            json_string = '{"pgs": ' + json.dumps([obj.__dict__ for obj in character_list]) + ' }'
-
-            with open('config.json', 'w') as json_file:
-                json_file.write(json_string)
-                json_file.close()
-
-            usernames.clear()
-            for c in character_list:
-                usernames.append(c["user"])
-
-            window["-LISTBOX-"].update(usernames)
+            save_json()
+            update_list()
         else:
             pass
 
@@ -133,18 +139,8 @@ while True:
             selected_pg = new_character
             pg_index = character_list.__len__() + 1
 
-        json_string = '{"pgs": ' + json.dumps([obj.__dict__ for obj in character_list]) + ' }'
-
-        with open('config.json', 'w') as json_file:
-            json_file.write(json_string)
-            json_file.close()
-
-        usernames.clear()
-        for c in character_list:
-            usernames.append(c["user"])
-
-        window["-LISTBOX-"].update(usernames)
-
+        save_json()
+        update_list()
 
     elif event == "-START-":  # inizia l'esecuzione
         break
