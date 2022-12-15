@@ -1,8 +1,8 @@
 class Character:
-    def __init__(self, username, password, server, premium, mission_string, allineamento, enabled):
-        self.user = username
+    def __init__(self, user, password, server, premium, mission_string, allineamento, enabled):
+        self.user = user
         self.password = password
-        self. server = server
+        self.server = server
         self.premium = premium
         self.missionString = mission_string
         self.allineamento = allineamento
