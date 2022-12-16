@@ -14,7 +14,9 @@ with open('config.json', 'r') as json_file:
     data = json.load(json_file)["pgs"]
     json_file.close()
 
-missioni_list = ["DragonLair", "missione2"]
+with open('missions.json', 'r') as json_file:
+    missioni_list = json.load(json_file)
+    json_file.close()
 
 character_list = []
 usernames = []
@@ -40,33 +42,48 @@ def the_gui():
         pg_index = None
         selected_pg = None
 
-    pg_list_column = [
-        [gui.Text("Lista PG")],
-        [gui.Listbox(values=[], enable_events=True, size=(40, 20), key="-LISTBOX-")],
+    gui.theme('DarkPurple')
+
+    gui_list_column = [
+        [gui.Listbox(values=[], enable_events=True, size=(40, 10), key="-LISTBOX-")],
         [gui.Button("NEW", key="-NEW-")]
     ]
 
-    pg_viewer_column = [
-        [gui.Text("Username: "), gui.InputText(size=(40, 1), key="-USERNAME-")],
-        [gui.Text("Password: "), gui.InputText(size=(40, 1), key="-PASSWORD-")],
-        [gui.Text("Server: "), gui.InputText(size=(40, 1), key="-SERVER-")],
-        [gui.Text("Premium: "), gui.Checkbox('', key="-PREMIUM-")],
-        [gui.Text("Missione: "), gui.DropDown(values=missioni_list, key="-MISSIONE-")],
-        [gui.Text("Allineamento: "), gui.DropDown(values=["buono", "malvagio"], key="-ALLINEAMENTO-")],
-        [gui.Text("Abilitato: "), gui.Checkbox('', key="-ABILITATO-")],
+    gui_labels_column = [
+        [gui.Text("Username: ")],
+        [gui.Text("Password: ")],
+        [gui.Text("Server: ")],
+        [gui.Text("Premium: ")],
+        [gui.Text("Missione: ")],
+        [gui.Text("Allineamento: ")],
+        [gui.Text("Abilitato: ")]
+    ]
+
+    gui_form_fields = [
+        [gui.InputText(key="-USERNAME-")],
+        [gui.InputText(key="-PASSWORD-")],
+        [gui.InputText(key="-SERVER-")],
+        [gui.Checkbox('', key="-PREMIUM-")],
+        [gui.DropDown(values=missioni_list, key="-MISSIONE-")],
+        [gui.DropDown(values=["buono", "malvagio"], key="-ALLINEAMENTO-")],
+        [gui.Checkbox('', key="-ABILITATO-")],
         [gui.Button("SAVE", key="-SAVE-"), gui.Button("DELETE", key="-DELETE-")]
+    ]
+
+    gui_viewer_column = [
+        [gui.Column(gui_labels_column, expand_y=True), gui.Column(gui_form_fields, expand_y=True)]
     ]
 
     layout = [
         [
-            gui.Column(pg_list_column),
-            gui.VSeperator(),
-            gui.Column(pg_viewer_column),
+            gui.Frame("Lista PG", gui_list_column, expand_y=True),
+            gui.Frame("PG Selezionato", gui_viewer_column, expand_y=True),
         ],
+        [gui.HSeparator()],
         [gui.Button("Start", key="-START-"), gui.Button("Stop", key="-STOP-")]
     ]
 
-    window = gui.Window("BattleKnight auto mission", layout, finalize=True)
+    window = gui.Window("BattleKnight auto mission", layout, finalize=True, auto_size_buttons=False)
 
     def save_json():
 
@@ -104,6 +121,12 @@ def the_gui():
 
     while True:
         update_list()
+
+        if selected_pg is not None:
+            window["-DELETE-"].update(disabled=False)
+        else:
+            window["-DELETE-"].update(disabled=True)
+
         event, values = window.read()
         if event in (gui.WIN_CLOSED, 'Exit'):
             break
